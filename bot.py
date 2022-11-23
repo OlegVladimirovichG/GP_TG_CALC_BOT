@@ -1,12 +1,16 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
-from tkn import bot_token
+from config_reader import config
+
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
 # Объект бота
-bot = Bot(token=bot_token())
+# Для записей с типом Secret* необходимо
+# вызывать метод get_secret_value(),
+# чтобы получить настоящее содержимое вместо '*******'
+bot = Bot(token=config.bot_token.get_secret_value())
 # Диспетчер
 dp = Dispatcher()
 
