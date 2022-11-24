@@ -13,12 +13,8 @@ async def set_commands(bot: Bot):
             description='Помощь'
         ),
         BotCommand(
-            command='cancel',
-            description='Сбросить'
-        ),
-        BotCommand(
-            command='form',
-            description='Начать опрос'
+            command='calc',
+            description='Запустить калькулятор'
         )
     ]
 
