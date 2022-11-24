@@ -1,5 +1,6 @@
 from sympy import sympify
 
+
 def calc(a, b, op):
     match op:
         case '*':
@@ -15,5 +16,3 @@ def calc(a, b, op):
 def free_calc(expr):
     expr = expr.strip()
     return f'{expr} = {sympify(expr)}'
-    
-
