@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
 from config_reader import config
-from aiogram.dispatcher.filters import Text
+from aiogram.filters import Text
 
 
 # Включаем логирование, чтобы не пропустить важные сообщения
