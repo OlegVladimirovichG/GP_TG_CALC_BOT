@@ -2,7 +2,8 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-from core.handlers.basic import get_start, get_help, get_any
+
+from core.handlers.basic import get_start, get_help, get_any, get_about
 from core.settings import settings
 from core.utils.commands import set_commands
 from core.handlers import form
@@ -18,6 +19,9 @@ async def stop_bot(bot: Bot):
     await bot.send_message(settings.bots.admin_id, 'Бот остановлен')
 
 
+dp = Dispatcher()
+
+
 async def start():
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s] -  %(name)s - "
@@ -25,7 +29,7 @@ async def start():
                         )
     bot = Bot(token=settings.bots.bot_token)
 
-    dp = Dispatcher()
+    # dp = Dispatcher()
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
 
@@ -37,6 +41,7 @@ async def start():
     dp.message.register(form.get_expression, StepsForm.GET_EXPRESSION)
     dp.message.register(get_start, Command(commands='start'))
     dp.message.register(get_help, Command(commands='help'))
+    dp.message.register(get_about, Command(commands='about'))
     dp.message.register(get_any)
     try:
         await dp.start_polling(bot)
