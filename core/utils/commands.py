@@ -9,12 +9,16 @@ async def set_commands(bot: Bot):
             description='Начало работы'
         ),
         BotCommand(
+            command='calc',
+            description='Запустить калькулятор'
+        ),
+        BotCommand(
             command='help',
             description='Помощь'
         ),
         BotCommand(
-            command='calc',
-            description='Запустить калькулятор'
+            command='about',
+            description='Информация о боте'
         )
     ]
 

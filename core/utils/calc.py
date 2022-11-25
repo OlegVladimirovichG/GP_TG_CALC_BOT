@@ -37,4 +37,4 @@ def calc():
 
 
 def free_calc():
-    return f'{expr} = {sympify(expr.strip())}'
+    return f'Ответ: {expr} = {sympify(expr.strip())}'
