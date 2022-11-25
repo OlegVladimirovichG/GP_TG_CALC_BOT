@@ -1,5 +1,14 @@
 from environs import Env
 from dataclasses import dataclass
+from datetime import datetime
+
+LOGFILE = open('log.csv', 'a', encoding='utf-8')
+
+
+def custom_log(u_id, f_name, l_name, text):
+    time = datetime.now().strftime("%d-%m-%Y %H:%M")
+    LOGFILE.write(
+        f'{time} - {u_id} - {f_name} {l_name} - {text} \n')
 
 
 @dataclass
