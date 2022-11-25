@@ -8,3 +8,6 @@ async def get_start(message: Message, bot: Bot):
 
 async def get_help(message: Message, bot: Bot):
     await message.answer(f'Тут помощь')
+
+async def get_any(message: Message, bot: Bot):
+    await message.answer(f'Я тебя не понял бла бла, попробуй написать /start')

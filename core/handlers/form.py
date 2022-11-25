@@ -18,13 +18,13 @@ async def get_calc_type(message: Message, state: FSMContext):
         await state.set_state(StepsForm.GET_OPERATION)
     elif message.text == 'Комплексные':
         await state.update_data(calc_type='complex')
-        await message.answer(f'Вы выбрали калькулятор комплексные чисел\n'
+        await message.answer(f'Вы выбрали калькулятор комплексных чисел\n'
                              f'Выберите операцию', reply_markup=choose_operation())
         await state.set_state(StepsForm.GET_OPERATION)
     elif message.text == 'Свободное выражение':
         await state.update_data(calc_type='free')
         await message.answer(f'Вы выбрали калькулятор свободных выражений\n'
-                             f'Введите выражение, например ((1+2)-3*4)/5')
+                             f'Введите выражение, например (1+2)-3*4')
         await state.set_state(StepsForm.GET_EXPRESSION)
 
 

@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-from core.handlers.basic import get_start, get_help
+from core.handlers.basic import get_start, get_help, get_any
 from core.settings import settings
 from core.utils.commands import set_commands
 from core.handlers import form
@@ -37,7 +37,7 @@ async def start():
     dp.message.register(form.get_expression, StepsForm.GET_EXPRESSION)
     dp.message.register(get_start, Command(commands='start'))
     dp.message.register(get_help, Command(commands='help'))
-
+    dp.message.register(get_any)
     try:
         await dp.start_polling(bot)
     finally:
