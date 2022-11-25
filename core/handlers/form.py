@@ -1,11 +1,10 @@
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
 from core import views
 from core.utils.statesform import StepsForm
 from core.keyboards.reply import choose_calc, choose_operation
 from core.utils.calc import init
-
 
 
 async def get_form(message: Message, state: FSMContext):
@@ -27,46 +26,47 @@ async def get_calc_type(message: Message, state: FSMContext):
         await message.answer(views.chosen_freeform())
         await state.set_state(StepsForm.GET_EXPRESSION)
     else:
-        await message.answer('Неправильный вид калькулятора ❌')
+        await message.answer(views.wrong_calc_type())
 
 
 async def get_operation(message: Message, state: FSMContext):
-    op = ''
-    match message.text:
-        case 'a + b':
-            await state.update_data(operation='+')
-            op = 'сложения'
-        case 'a - b':
-            await state.update_data(operation='-')
-            op = 'вычитания'
-        case 'a * b':
-            await state.update_data(operation='*')
-            op = 'умножения'
-        case 'a / b':
-            await state.update_data(operation='/')
-            op = 'деления'
-    await message.answer(views.got_operator(op))
-    await state.set_state(StepsForm.GET_FIRST_NUM)
-
+    if message.text == 'a + b':
+        await state.update_data(operation='+')
+        op = 'сложения'
+        await message.answer(views.got_operator(op), reply_markup=ReplyKeyboardRemove())
+        await state.set_state(StepsForm.GET_FIRST_NUM)
+    elif message.text == 'a - b':
+        await state.update_data(operation='-')
+        op = 'вычитания'
+        await message.answer(views.got_operator(op), reply_markup=ReplyKeyboardRemove())
+        await state.set_state(StepsForm.GET_FIRST_NUM)
+    elif message.text == 'a * b':
+        await state.update_data(operation='*')
+        op = 'умножения'
+        await message.answer(views.got_operator(op), reply_markup=ReplyKeyboardRemove())
+        await state.set_state(StepsForm.GET_FIRST_NUM)
+    elif message.text == 'a / b':
+        await state.update_data(operation='/')
+        op = 'деления'
+        await message.answer(views.got_operator(op), reply_markup=ReplyKeyboardRemove())
+        await state.set_state(StepsForm.GET_FIRST_NUM)
+    else:
+        await message.answer(views.wrong_operator(), reply_markup=choose_operation())
 
 
 async def get_first_num(message: Message, state: FSMContext):
-    check_input = message.text
-    if check_input.isdigit():
-        await state.update_data(first_num=message.text)
-        await message.answer(f'Введите второе число:')
-        await state.set_state(StepsForm.GET_SECOND_NUM)
-    else:
-        await message.answer(views.wrong_input())
+    await state.update_data(first_num=message.text)
+    await message.answer(f'Введите второе число:')
+    await state.set_state(StepsForm.GET_SECOND_NUM)
 
 
 async def get_second_num(message: Message, state: FSMContext):
-    check_input = message.text
-    if check_input.isdigit():
-        await state.update_data(second_num=message.text)
-        context_data = await state.get_data()
+    await state.update_data(second_num=message.text)
+    context_data = await state.get_data()
+    result = init(context_data)
+    if result:
         await message.answer(f'Ответ: {context_data["first_num"]} {context_data["operation"]} '
-                                f'{context_data["second_num"]} = {init(context_data)}')
+                             f'{context_data["second_num"]} = {result}')
         await message.answer(views.end_calc())
         await state.clear()
     else:
@@ -80,7 +80,3 @@ async def get_expression(message: Message, state: FSMContext):
     await message.answer(f'{init(context_data)}')
     await message.answer(views.end_calc())
     await state.clear()
-
-
-
-
