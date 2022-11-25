@@ -2,8 +2,9 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-from core.handlers.basic import get_start, get_help, get_any
-from core.settings import settings
+
+from core.handlers.basic import get_start, get_help, get_any, get_about
+from core.settings import settings, LOGFILE
 from core.utils.commands import set_commands
 from core.handlers import form
 from core.utils.statesform import StepsForm
@@ -20,8 +21,7 @@ async def stop_bot(bot: Bot):
 
 async def start():
     logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s - [%(levelname)s] -  %(name)s - "
-                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
+                        format="%(asctime)s - [%(levelname)s] -  %(name)s - %(message)s",
                         )
     bot = Bot(token=settings.bots.bot_token)
 
@@ -37,11 +37,13 @@ async def start():
     dp.message.register(form.get_expression, StepsForm.GET_EXPRESSION)
     dp.message.register(get_start, Command(commands='start'))
     dp.message.register(get_help, Command(commands='help'))
+    dp.message.register(get_about, Command(commands='about'))
     dp.message.register(get_any)
     try:
         await dp.start_polling(bot)
     finally:
         await bot.session.close()
+        LOGFILE.close()
 
 
 if __name__ == '__main__':

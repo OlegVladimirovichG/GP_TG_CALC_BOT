@@ -10,18 +10,21 @@ expr = ''
 def init(user_dict):
     global a, b, op, expr
     op = user_dict["operation"]
-    match user_dict['calc_type']:
-        case 'decimal':
-            a = Decimal(user_dict["first_num"])
-            b = Decimal(user_dict["second_num"])
-            return calc()
-        case 'complex':
-            a = complex(user_dict["first_num"])
-            b = complex(user_dict["second_num"])
-            return calc()
-        case 'free':
-            expr = user_dict["expression"]
-            return free_calc()
+    try:
+        match user_dict['calc_type']:
+            case 'decimal':
+                a = Decimal(user_dict["first_num"])
+                b = Decimal(user_dict["second_num"])
+                return calc()
+            case 'complex':
+                a = complex(user_dict["first_num"].lower().replace('i', 'j'))
+                b = complex(user_dict["second_num"].lower().replace('i', 'j'))
+                return calc()
+            case 'free':
+                expr = user_dict["expression"]
+                return free_calc()
+    except:
+        return False
 
 
 def calc():
@@ -37,4 +40,4 @@ def calc():
 
 
 def free_calc():
-    return f'{expr} = {sympify(expr.strip())}'
+    return f'Ответ: {expr} = {sympify(expr.strip())}'
