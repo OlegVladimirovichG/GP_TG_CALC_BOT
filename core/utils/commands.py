@@ -14,7 +14,7 @@ async def set_commands(bot: Bot):
         ),
         BotCommand(
             command='poly',
-            description='Запустить калькулятор многочленов'
+            description='Запустить калькулятор полиномов'
         ),
         BotCommand(
             command='help',
