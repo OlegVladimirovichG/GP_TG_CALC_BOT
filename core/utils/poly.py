@@ -1,13 +1,10 @@
-users_data = {'first_poly': '3x14 + 2x12 + 6x11 + 9x10 + 5x9 + 6x8 + 8x7 + x6 + 8x5 + 2x4 + x3 + 3x2 + 10x + 3 = 0',
-              'second_poly': '33x14 + 2x13 + 64x12 + 62x11 + 59x10 + 6x9 + 66x8 + 75x7 + 55x6 + 67x5 + 74x4 + 44x3 + 34x2 + 12x + 15 = 0'}
-
-
 def poly_init(user_data):
     first = read_polynomial(user_data['first_poly'])
     second = read_polynomial(user_data['second_poly'])
-    merged = first | second
+    merged = merge_dicts(first, second)
     lst = dict_to_list(merged)
-    return write_polynomial(lst)
+    res = write_polynomial(lst)
+    return res
 
 
 def read_polynomial(expr):
@@ -22,6 +19,13 @@ def read_polynomial(expr):
             expr_lst[i][1] = "1"
         expr_dic[int(expr_lst[i][1])] = int(expr_lst[i][0])
     return expr_dic
+
+
+def merge_dicts(fst, snd):
+    fst_dict = {i: fst[i] if i not in snd else fst[i] + snd[i] for i in fst}
+    snd_dict = {i: snd[i] for i in snd if i not in fst_dict}
+    dict_sum = fst_dict | snd_dict
+    return dict_sum
 
 
 def dict_to_list(mrgd_dict):
@@ -39,7 +43,7 @@ def dict_to_list(mrgd_dict):
 def write_polynomial(exp_lst):
     result = ""
     sup_chr = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹")
-    if all(i == 0 for i in exp_lst):
+    if all(j == 0 for j in exp_lst):
         result += "0"
     else:
         count = len(exp_lst) - 1
