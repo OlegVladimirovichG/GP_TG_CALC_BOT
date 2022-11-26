@@ -7,7 +7,7 @@ op = ''
 expr = ''
 
 
-def init(user_dict):
+def calc_init(user_dict):
     global a, b, op, expr
     op = user_dict["operation"]
     try:

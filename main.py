@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from core.handlers.basic import get_start, get_help, get_any, get_about
 from core.settings import settings, LOGFILE
 from core.utils.commands import set_commands
-from core.handlers import form
+from core.handlers import calculator, polynom
 from core.utils.statesform import StepsForm
 
 
@@ -29,12 +29,17 @@ async def start():
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
 
-    dp.message.register(form.get_form, Command(commands='calc'))
-    dp.message.register(form.get_calc_type, StepsForm.GET_CALC_TYPE)
-    dp.message.register(form.get_operation, StepsForm.GET_OPERATION)
-    dp.message.register(form.get_first_num, StepsForm.GET_FIRST_NUM)
-    dp.message.register(form.get_second_num, StepsForm.GET_SECOND_NUM)
-    dp.message.register(form.get_expression, StepsForm.GET_EXPRESSION)
+    dp.message.register(calculator.get_calc, Command(commands='calc'))
+    dp.message.register(calculator.get_calc_type, StepsForm.GET_CALC_TYPE)
+    dp.message.register(calculator.get_operation, StepsForm.GET_OPERATION)
+    dp.message.register(calculator.get_first_num, StepsForm.GET_FIRST_NUM)
+    dp.message.register(calculator.get_second_num, StepsForm.GET_SECOND_NUM)
+    dp.message.register(calculator.get_expression, StepsForm.GET_EXPRESSION)
+
+    dp.message.register(polynom.get_poly, Command(commands='poly'))
+    dp.message.register(polynom.get_first_poly, StepsForm.GET_FRST_POLY)
+    dp.message.register(polynom.get_second_poly, StepsForm.GET_SECOND_POLY)
+
     dp.message.register(get_start, Command(commands='start'))
     dp.message.register(get_help, Command(commands='help'))
     dp.message.register(get_about, Command(commands='about'))

@@ -10,7 +10,11 @@ async def set_commands(bot: Bot):
         ),
         BotCommand(
             command='calc',
-            description='Запустить калькулятор'
+            description='Запустить калькулятор чисел'
+        ),
+        BotCommand(
+            command='poly',
+            description='Запустить калькулятор многочленов'
         ),
         BotCommand(
             command='help',
