@@ -9,12 +9,14 @@ def poly_init(user_data):
 
 def read_polynomial(expr):
     expr_dic = {}
-    expr = expr.replace(" = 0", "x0")
+    expr = expr.replace(" = 0", "x0").replace('- ', '+ -')
     expr_lst = expr.split(" + ")
     for i in range(len(expr_lst)):
         expr_lst[i] = expr_lst[i].split('x')
         if expr_lst[i][0] == "":
             expr_lst[i][0] = 1
+        elif expr_lst[i][0] == "-":
+            expr_lst[i][0] = -1
         if expr_lst[i][1] == "":
             expr_lst[i][1] = "1"
         expr_dic[int(expr_lst[i][1])] = int(expr_lst[i][0])
@@ -29,14 +31,7 @@ def merge_dicts(fst, snd):
 
 
 def dict_to_list(mrgd_dict):
-    dict_lst = []
-    i = max(mrgd_dict)
-    while i >= 0:
-        if i not in mrgd_dict:
-            dict_lst.append(0)
-        else:
-            dict_lst.append(mrgd_dict.pop(i))
-        i -= 1
+    dict_lst = [0 if i not in mrgd_dict else mrgd_dict.pop(i) for i in range(max(mrgd_dict), -1, -1)]
     return dict_lst
 
 
