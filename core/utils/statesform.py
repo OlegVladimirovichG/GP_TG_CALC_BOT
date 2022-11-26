@@ -7,3 +7,5 @@ class StepsForm(StatesGroup):
     GET_FIRST_NUM = State()
     GET_SECOND_NUM = State()
     GET_EXPRESSION = State()
+    GET_FRST_POLY = State()
+    GET_SECOND_POLY = State()

@@ -39,6 +39,11 @@ def end_calc():
 Выберите /start или /calc'''
 
 
+def end_poly():
+    return f'''Расчёт завершён ✅.
+Выберите /start или /poly'''
+
+
 def got_operator(operator):
     return f'''Вы выбрали арифметическое действие {operator}
 Введите первое число:'''
@@ -65,3 +70,23 @@ def wrong_operator():
 
 def wrong_calc_type():
     return 'Выбран неверный вид калькулятора ❌'
+
+
+def choose_calc_type():
+    return 'Выберите какие числа будем считать'
+
+
+def enter_second_num():
+    return 'Введите второе число:'
+
+
+def start_poly():
+    return 'Вы выбрали калькулятор для сложения многочленов\n'
+
+
+def first_poly():
+    return 'Введите первый многочлен'
+
+
+def second_poly():
+    return 'Введите второй многочлен'

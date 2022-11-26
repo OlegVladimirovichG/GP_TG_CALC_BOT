@@ -4,13 +4,13 @@ from aiogram.fsm.context import FSMContext
 from core import views
 from core.utils.statesform import StepsForm
 from core.keyboards.reply import choose_calc, choose_operation
-from core.utils.calc import init
+from core.utils.calc import calc_init
 from core.settings import custom_log
 
 
-async def get_form(message: Message, state: FSMContext):
+async def get_calc(message: Message, state: FSMContext):
     custom_log(message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.text)
-    await message.answer(f'Выберите какие числа будем считать', reply_markup=choose_calc())
+    await message.answer(views.choose_calc_type(), reply_markup=choose_calc())
     await state.set_state(StepsForm.GET_CALC_TYPE)
 
 
@@ -61,7 +61,7 @@ async def get_operation(message: Message, state: FSMContext):
 async def get_first_num(message: Message, state: FSMContext):
     custom_log(message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.text)
     await state.update_data(first_num=message.text)
-    await message.answer(f'Введите второе число:')
+    await message.answer(views.enter_second_num())
     await state.set_state(StepsForm.GET_SECOND_NUM)
 
 
@@ -69,7 +69,7 @@ async def get_second_num(message: Message, state: FSMContext):
     custom_log(message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.text)
     await state.update_data(second_num=message.text)
     context_data = await state.get_data()
-    result = init(context_data)
+    result = calc_init(context_data)
     if result:
         await message.answer(f'Ответ: {context_data["first_num"]} {context_data["operation"]} '
                              f'{context_data["second_num"]} = {result}')
@@ -84,6 +84,6 @@ async def get_expression(message: Message, state: FSMContext):
     await state.update_data(operation='')
     await state.update_data(expression=message.text)
     context_data = await state.get_data()
-    await message.answer(f'{init(context_data)}')
+    await message.answer(f'{calc_init(context_data)}')
     await message.answer(views.end_calc())
     await state.clear()
